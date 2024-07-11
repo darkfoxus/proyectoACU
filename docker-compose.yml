@@ -1,0 +1,84 @@
+
+#volumes:
+
+services:
+# Application Service
+  app:
+    container_name: app
+    build:
+      context: ./docker-stuff/php
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/var/www/app:rw
+    ports:
+      - "9001:9001"
+    working_dir: /var/www/app
+    depends_on:
+      - mariadb
+    networks:
+      - fox-development
+
+# Web Server Service
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/app:rw
+      - ./docker-stuff/nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - app
+      - mariadb 
+    networks:
+      - fox-development
+            
+  mariadb:
+    container_name: mariadb
+    image: mariadb:10.6
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: laravel
+      MYSQL_USER:  root 
+      MYSQL_PASSWORD: admin
+    expose:
+        - "3306"
+    ports:
+      - "3306:3306"
+    volumes:
+    # - this stores the database files on the host machine and links them inside /var/lib/mysql in the docker container
+      - ./docker-stuff/mariadb:/var/lib/mysql:rw 
+    networks:
+      - fox-development
+#  laravel-app:
+#    container_name: laravel-app 
+#    image: bitnami/laravel:11
+#    ports:
+#      - "80:8000"
+#    environment:
+#      - DB_HOST=mariadb
+#      - DB_PORT=3306
+#      - DB_USERNAME=root
+#      - DB_PASSWORD=admin
+#      - DB_DATABASE=laravel
+#    volumes:
+#      - ./src/app:/app
+#    networks:
+#      - fox-development
+  phpmyadmin:
+    container_name: phpMyAdmin
+    image: phpmyadmin
+    restart: always
+    expose:
+      - "1337"
+    ports:
+      - "1337:80"
+    environment:
+      - PMA_HOST=mariadb
+      - PMA_PORT=3306 
+      - PMA_ARBITRARY=1
+    networks:
+      - fox-development
+networks:
+    fox-development:
