@@ -1,5 +1,13 @@
-# proyectoACU
+# proyectoACU steps to install
+cd into src folder and type
+ - composer install -vvv
+ - cp .env.example .env
+ - php artisan key:generate
 
-- toca tirar luego este comando en el container luego del compose up
-     RUN chmod -R ugo+rw /var/www/app/storage
-     RUN chmod -R 775 /var/www/app/storage
+cd into the root of the project and run
+ - docker compose build
+ - docker compose up -d
+  
+Luego correr este comando en el container despues
+ - RUN chmod -R ugo+rw /var/www/app/storage
+ - RUN chmod -R 775 /var/www/app/storage
