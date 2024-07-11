@@ -24,6 +24,10 @@ services:
     container_name: nginx
     ports:
       - "80:80"
+      - "443:443"
+    expose:
+      - "80"  
+      - "443"
     volumes:
       - ./src:/var/www/app:rw
       - ./docker-stuff/nginx/conf.d/:/etc/nginx/conf.d/
@@ -82,3 +86,4 @@ services:
       - fox-development
 networks:
     fox-development:
+        driver: bridge
