@@ -66,13 +66,24 @@ div.content {
   .sidebar a.icon {
     float: right;
     display: block;
-    }
+  }
+    
+  .sidebar.responsive .icon {
+    position: absolute;
+    right: 0;
+    bottom:0;
+  }
+  .sidebar.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }  
   .sidebar {
   position: fixed;
   bottom: 0;
   }
   
-  # code to handle the hamburger style
+  /* code to handle the hamburger style */
   
   
 }
