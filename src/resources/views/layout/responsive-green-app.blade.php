@@ -41,6 +41,10 @@ div.content {
   height: 1000px;
 }
 
+.sidebar a.icon {
+    display: none;
+    }
+
 @media screen and (max-width: 700px) {
   .sidebar {
     width: 100%;
@@ -52,26 +56,36 @@ div.content {
 }
 
 @media screen and (max-width: 400px) {
+   /* code to handle the hamburger style */
   .sidebar a {
     text-align: center;
-    float: none;
+    /*float: none; */
     padding: 10px;
   }
-  
+  .sidebar a:not(:first-child) {display: none;}
+  .sidebar a.icon {
+    float: right;
+    display: block;
+    }
   .sidebar {
   position: fixed;
   bottom: 0;
   }
+  
+  # code to handle the hamburger style
+  
+  
 }
 </style>
 </head>
 <body>
 
-<div class="sidebar">
+<div class="sidebar" id = "mySidevar">
   <a class="active" href="#home">Home</a>
   <a href="#news">News</a>
   <a href="#contact">Contact</a>
   <a href="#about">About</a>
+  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="tickHamburgerMenu()">&#9776;</a>
 </div>
 
 <div class="content"> 
@@ -81,6 +95,17 @@ div.content {
   @yield('content')
   
 </div>
+
+<script>
+function tickHamburgerMenu() {
+  var x = document.getElementById("mySidevar");
+  if (x.className === "sidebar") {
+    x.className += " responsive";
+  } else {
+    x.className = "sidebar";
+  }
+}
+</script>
 
 </body>
 </html>
